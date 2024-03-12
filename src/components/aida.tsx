@@ -23,8 +23,8 @@ const Aida = () => {
         setQuestion(target.value)
     }
 
-    const endpoint = "https://esp-services-dataoffering-openai-uksouth.openai.azure.com/";
-    const azureApiKey = "bd17a73f46a348b1b73a1d97c4eab3bb"
+    const endpoint = "";
+    const azureApiKey = ""
 
     const getResponse = async () => {
         const client = new OpenAIClient(endpoint, new AzureKeyCredential(azureApiKey));
