@@ -2,11 +2,98 @@ import * as React from 'react';
 import { styled } from '@mui/material/styles';
 import Badge from '@mui/material/Badge';
 import Avatar from '@mui/material/Avatar';
-import {useState} from "react";
+import {ChangeEvent, KeyboardEvent, useState} from "react";
 import Box from '@mui/material/Box';
-import {Fade, Popper, TextField} from "@mui/material";
+import {Fade, InputAdornment, Popper, TextField} from "@mui/material";
 import Paper from "@mui/material/Paper";
-import InputComponent from "./input";
+import {AzureKeyCredential, OpenAIClient} from "@azure/openai";
+
+const Aida = () => {
+    const [question, setQuestion] = useState<string>("")
+    const [response, setResponse] = useState<string>("")
+    const [showAida, setShowAida] = useState(false)
+    const [thinking, setThinking] = useState(false)
+    const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null);
+    const onClickAida =
+        (event: React.MouseEvent<HTMLButtonElement>) => {
+            setAnchorEl(event.currentTarget);
+            setShowAida(!showAida);
+        };
+    const onChangeInput = ({target}: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        setQuestion(target.value)
+    }
+
+    const endpoint = "https://esp-services-dataoffering-openai-uksouth.openai.azure.com/";
+    const azureApiKey = "bd17a73f46a348b1b73a1d97c4eab3bb"
+
+    const getResponse = async () => {
+        const client = new OpenAIClient(endpoint, new AzureKeyCredential(azureApiKey));
+        const deploymentId = "gpt-4-1106-preview";
+        const result = await client.getChatCompletions(deploymentId, [
+            { role: "user", content: question },
+        ]);
+
+        setResponse(result?.choices[0]?.message?.content as string || 'Fail');
+        (result?.choices[0]?.message?.content) ? setThinking(false) : null
+    }
+
+    const keyPress = (e: KeyboardEvent<HTMLDivElement>) => {
+        if(e.key == 'Enter' && !e.shiftKey){
+            getResponse()
+            setThinking(true)
+            setQuestion("")
+        }
+    }
+
+    return (
+        <Box>
+            <Popper
+                sx={{ zIndex: 100000 }}
+                open={showAida}
+                anchorEl={anchorEl}
+                placement="bottom-start"
+                transition
+            >
+                {({ TransitionProps }) => (
+                    <Fade {...TransitionProps} timeout={350}>
+                        <Paper sx={{padding: 2}}>
+                            <TextField
+                                id="outlined-multiline-flexible"
+                                multiline
+                                maxRows={30}
+                                sx={{marginBottom: 1}}
+                                disabled
+                                fullWidth
+                                value={response}
+                                InputProps={{
+                                    startAdornment: thinking ? <InputAdornment position="start">Thinking...</InputAdornment> : null,
+                                }}
+                            />
+                            <TextField
+                                fullWidth
+                                label="Write a question"
+                                id="fullWidth"
+                                multiline
+                                onChange={onChangeInput}
+                                value={question}
+                                onKeyDown={keyPress}
+                            />
+                        </Paper>
+                    </Fade>
+                )}
+            </Popper>
+            <StyledBadge
+                overlap="circular"
+                anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                variant="dot"
+                onClick={onClickAida}
+                style={{cursor: "pointer"}}
+            >
+                <Avatar alt="Remy Sharp" src="robot.png"/>
+            </StyledBadge>
+        </Box>
+    );
+}
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
     '& .MuiBadge-badge': {
@@ -36,52 +123,5 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
         },
     },
 }));
-
-const Aida = () => {
-    const [showAida, setShowAida] = useState(false)
-    const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null);
-    const onClickAida =
-        (event: React.MouseEvent<HTMLButtonElement>) => {
-            setAnchorEl(event.currentTarget);
-            setShowAida(!showAida);
-        };
-
-    return (
-        <Box>
-            <Popper
-                sx={{ zIndex: 100000 }}
-                open={showAida}
-                anchorEl={anchorEl}
-                placement="bottom-start"
-                transition
-            >
-                {({ TransitionProps }) => (
-                    <Fade {...TransitionProps} timeout={350}>
-                        <Paper sx={{padding: 2}}>
-                            <TextField
-                                id="outlined-multiline-flexible"
-                                multiline
-                                maxRows={30}
-                                sx={{width:320, marginBottom: 1}}
-                                disabled
-                                placeholder="Hello, I'm AIDA"
-                            />
-                            <InputComponent />
-                        </Paper>
-                    </Fade>
-                )}
-            </Popper>
-            <StyledBadge
-                overlap="circular"
-                anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-                variant="dot"
-                onClick={onClickAida}
-                style={{cursor: "pointer"}}
-            >
-                <Avatar alt="Remy Sharp" src="robot.png"/>
-            </StyledBadge>
-        </Box>
-    );
-}
 
 export default Aida
