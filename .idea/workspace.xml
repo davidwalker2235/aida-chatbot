@@ -4,13 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="be89a3cf-d93f-4e3b-9126-0baf906481ef" name="Changes" comment="add Aida credentials 2">
-      <change afterPath="$PROJECT_DIR$/src/aidaProvider.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/aida.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/aida.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/tsconfig.json" afterDir="false" />
-    </list>
+    <list default="true" id="be89a3cf-d93f-4e3b-9126-0baf906481ef" name="Changes" comment="add provider" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -69,7 +63,7 @@
       <updated>1710168682885</updated>
       <workItem from="1710168683904" duration="6139000" />
       <workItem from="1710251308467" duration="8100000" />
-      <workItem from="1710313207655" duration="3211000" />
+      <workItem from="1710313207655" duration="3320000" />
     </task>
     <task id="LOCAL-00001" summary="first upload">
       <option name="closed" value="true" />
@@ -111,7 +105,15 @@
       <option name="project" value="LOCAL" />
       <updated>1710262839582</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="add provider">
+      <option name="closed" value="true" />
+      <created>1710316515541</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1710316515541</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -123,6 +125,7 @@
     <MESSAGE value="add Aida chat" />
     <MESSAGE value="add Aida credentials" />
     <MESSAGE value="add Aida credentials 2" />
-    <option name="LAST_COMMIT_MESSAGE" value="add Aida credentials 2" />
+    <MESSAGE value="add provider" />
+    <option name="LAST_COMMIT_MESSAGE" value="add provider" />
   </component>
 </project>
