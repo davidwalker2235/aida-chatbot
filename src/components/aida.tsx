@@ -1,14 +1,18 @@
+"use client"
+
 import * as React from 'react';
 import { styled } from '@mui/material/styles';
 import Badge from '@mui/material/Badge';
 import Avatar from '@mui/material/Avatar';
-import {ChangeEvent, KeyboardEvent, useState} from "react";
+import {ChangeEvent, KeyboardEvent, useContext, useState} from "react";
 import Box from '@mui/material/Box';
 import {Fade, InputAdornment, Popper, TextField} from "@mui/material";
 import Paper from "@mui/material/Paper";
 import {AzureKeyCredential, OpenAIClient} from "@azure/openai";
+import {ChatContext} from "../aidaProvider";
 
 const Aida = () => {
+    const {endPoint, azureApiKey, deploymentId, } = useContext(ChatContext)
     const [question, setQuestion] = useState<string>("")
     const [response, setResponse] = useState<string>("")
     const [showAida, setShowAida] = useState(false)
@@ -23,12 +27,9 @@ const Aida = () => {
         setQuestion(target.value)
     }
 
-    const endpoint = "";
-    const azureApiKey = ""
 
     const getResponse = async () => {
-        const client = new OpenAIClient(endpoint, new AzureKeyCredential(azureApiKey));
-        const deploymentId = "gpt-4-1106-preview";
+        const client = new OpenAIClient(endPoint, new AzureKeyCredential(azureApiKey));
         const result = await client.getChatCompletions(deploymentId, [
             { role: "user", content: question },
         ]);
