@@ -1,14 +1,12 @@
-"use client"
-
-import * as React from 'react';
 import { styled } from '@mui/material/styles';
 import Badge from '@mui/material/Badge';
 import Avatar from '@mui/material/Avatar';
-import {ChangeEvent, KeyboardEvent, useContext, useState} from "react";
+import {useContext, useState} from "react";
 import Box from '@mui/material/Box';
 import {Fade, InputAdornment, Popper, TextField} from "@mui/material";
 import Paper from "@mui/material/Paper";
-import {AzureKeyCredential, OpenAIClient} from "@azure/openai";
+import {OpenAIClient} from "@azure/openai";
+import { AzureKeyCredential } from '@azure/core-auth';
 import {ChatContext} from "../aidaProvider";
 
 const Aida = () => {
@@ -17,13 +15,13 @@ const Aida = () => {
     const [response, setResponse] = useState<string>("")
     const [showAida, setShowAida] = useState(false)
     const [thinking, setThinking] = useState(false)
-    const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null);
+    const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
     const onClickAida =
-        (event: React.MouseEvent<HTMLButtonElement>) => {
+        (event: any) => {
             setAnchorEl(event.currentTarget);
             setShowAida(!showAida);
         };
-    const onChangeInput = ({target}: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const onChangeInput = ({target}: any) => {
         setQuestion(target.value)
     }
 
@@ -34,12 +32,12 @@ const Aida = () => {
             { role: "user", content: question },
         ]);
 
-        setResponse(result?.choices[0]?.message?.content as string || 'Fail');
-        (result?.choices[0]?.message?.content) ? setThinking(false) : null
+        setResponse(result?.choices[0]?.message?.content || 'Fail');
+        if (result?.choices[0]?.message?.content) setThinking(false)
     }
 
-    const keyPress = (e: KeyboardEvent<HTMLDivElement>) => {
-        if(e.key == 'Enter' && !e.shiftKey){
+    const keyPress = (e: any) => {
+        if(e.key === 'Enter' && !e.shiftKey){
             getResponse()
             setThinking(true)
             setQuestion("")

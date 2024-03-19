@@ -1,14 +1,18 @@
-"use client"
-
 import {createContext} from 'react';
 
-type credentialsTypes = {endPoint: string, azureApiKey: string, deploymentId: string}
-export const ChatContext = createContext(
-    {} as credentialsTypes);
-const AidaProvider = ({children, credentials}: {
-    children: React.ReactNode,
-    credentials: credentialsTypes
-}) => {
+export const ChatContext = createContext<{
+    endPoint: string;
+    azureApiKey: string;
+    deploymentId: string;
+}>({
+    endPoint: '', azureApiKey: '', deploymentId: ''
+});
+
+const AidaProvider = ({children, credentials}: {children: any, credentials: {
+        endPoint: string;
+        azureApiKey: string;
+        deploymentId: string;
+    }}) => {
 
     return (
         <ChatContext.Provider value={credentials}>
